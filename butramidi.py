@@ -28,7 +28,7 @@ def create_beat (degrees):
             MyMIDI.addNote(track, channel, pitch, position, duration, volume)
 
 def create_random_beat ():
-    x = randint (36, 52)
+    x = randint (36, 51)
     print (str (x))
     degrees  = [0, 0, 0, 0, 0, 0, 0, 0]
     for i in range (0, 8):
