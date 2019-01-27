@@ -4,21 +4,14 @@
 from midiutil import MIDIFile
 from random import randint
 import random
+import os
 
-# Variables initialization
-additional_tracks = randint (0,4)
-print (str (additional_tracks))
-MyMIDI = MIDIFile(4+additional_tracks)
-channel  = 0
-track = 0
-time     = 0    # In beats
-duration = 0.25    # In beats
-tempo    = 120   # In BPM
-volume   = 80  # 0-127, as per the MIDI standard
+############## FUNCTIONS ##############
 
-# Functions
+# Create a beat
 def create_beat (degrees):
     resolution = len (degrees) / 4
+    duration = 1/float(resolution)
     MyMIDI.addTempo(track, time, tempo)
     for i, pitch in enumerate(degrees):
         position = time + float(i)/resolution
@@ -27,15 +20,64 @@ def create_beat (degrees):
         else:
             MyMIDI.addNote(track, channel, pitch, position, duration, volume)
 
+# Create random beat
 def create_random_beat ():
     x = randint (36, 51)
-    print (str (x))
+    print ('Pitch: '+str (x))
     degrees  = [0, 0, 0, 0, 0, 0, 0, 0]
     for i in range (0, 8):
         if bool(random.getrandbits(1)):
             degrees [i] = x
     print (degrees)
     create_beat (degrees)
+
+# Key
+def generate_key ():
+    key = original_key = [0, 2, 3, 5, 7, 8, 11]
+    new_key = [0, 0, 0, 0, 0, 0, 0]
+
+    for i in range (1, 10):
+        for j in range (1, len(original_key)):
+            new_key [j] = 12*i + original_key [j]
+        key = key + new_key
+    return key
+
+def create_melody (key):
+    possible_duration = [0.25, 0.5, 1.0, 2.0]
+    total_duration = 0.0
+    riff = [[]]
+
+    while True:
+        duration = possible_duration [randint(0,3)]
+        total_duration += duration
+        if total_duration >= 4:
+            break
+        x = randint (0, 69)
+        note = [key[x], duration]
+        riff.append (note)
+        
+    write_riff (riff)
+
+def write_riff (riff):
+    position = 0
+    for i in range (1, len (riff)):
+        duration = riff [i][1]
+        pitch = riff [i][0]
+        for j in range (0, i):
+            position += duration
+            MyMIDI.addNote(track, channel, pitch, position, duration, volume)
+
+############## DRUMS ##############
+
+# Variables initialization
+additional_tracks = randint (0,4)
+print ('# additional tracks: '+str (additional_tracks))
+MyMIDI = MIDIFile(4+additional_tracks)
+channel  = 0
+track = 0
+time     = 0    # In beats
+tempo    = 115   # In BPM
+volume   = 80  # 0-127, as per the MIDI standard
 
 # Kick
 x = 36
@@ -61,6 +103,31 @@ create_beat (degrees)
 for i in range (0, additional_tracks):
     create_random_beat ()
 
+############## BASS ##############
+
+key = generate_key ()
+
+# Variables initialization
+additional_tracks = randint (1,3)
+print ('# additional tracks: '+str (additional_tracks))
+track = 1
+
+# Tracks
+for i in range (0, additional_tracks):
+    create_melody (key)
+
+############## LEAD ##############
+
+# Variables initialization
+additional_tracks = randint (1,3)
+print ('# additional tracks: '+str (additional_tracks))
+track = 2
+
+# Tracks
+for i in range (0, additional_tracks):
+    create_melody (key)
+
 # Save file
-with open("house-beat.mid", "wb") as output_file:
+os.mkdir ('midi')
+with open("midi/random-beat.mid", "wb") as output_file:
     MyMIDI.writeFile(output_file)
