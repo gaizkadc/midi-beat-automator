@@ -5,6 +5,8 @@ from midiutil import MIDIFile
 from random import randint
 import random
 import os
+from datetime import datetime
+import time
 
 ############## FUNCTIONS ##############
 
@@ -128,6 +130,9 @@ for i in range (0, additional_tracks):
     create_melody (key)
 
 # Save file
-os.mkdir ('midi')
-with open("midi/random-beat.mid", "wb") as output_file:
+now = datetime.now()
+now = now.strftime("%H%M%S")
+if not os.path.exists('midi'):
+    os.mkdir ('midi')
+with open('midi/random-beat-'+now+'.mid', 'wb') as output_file:
     MyMIDI.writeFile(output_file)
