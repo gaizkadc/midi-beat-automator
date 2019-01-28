@@ -35,15 +35,16 @@ def create_random_beat ():
 
 # Key
 def generate_key ():
-    key = original_key = [0, 2, 3, 5, 7, 8, 11]
+    key = original_key = [1, 2, 4, 5, 7, 8, 11]
     new_key = [0, 0, 0, 0, 0, 0, 0]
 
     for i in range (1, 10):
-        for j in range (1, len(original_key)):
+        for j in range (0, len(original_key)):
             new_key [j] = 12*i + original_key [j]
         key = key + new_key
     return key
 
+# Create a melody line
 def create_melody (key):
     possible_duration = [0.25, 0.5, 1.0, 2.0]
     total_duration = 0.0
@@ -54,7 +55,7 @@ def create_melody (key):
         total_duration += duration
         if total_duration >= 4:
             break
-        x = randint (0, 69)
+        x = randint (1, 15)
         note = [key[x], duration]
         riff.append (note)
         
@@ -107,7 +108,9 @@ for i in range (0, additional_tracks):
 
 ############## BASS ##############
 
-key = generate_key ()
+original_key = generate_key ()
+key = original_key [20:35]
+print (key)
 
 # Variables initialization
 additional_tracks = randint (1,3)
@@ -119,6 +122,9 @@ for i in range (0, additional_tracks):
     create_melody (key)
 
 ############## LEAD ##############
+
+key = original_key [30:45]
+print (key)
 
 # Variables initialization
 additional_tracks = randint (1,3)
