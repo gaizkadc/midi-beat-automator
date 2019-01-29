@@ -53,12 +53,13 @@ def create_melody (key):
     while True:
         duration = possible_duration [randint(0,3)]
         total_duration += duration
-        if total_duration >= 4:
+        if total_duration >= 8:
             break
-        x = randint (1, 15)
+        x = randint (1, 14) # shouldn't it be 15? Check.
         note = [key[x], duration]
         riff.append (note)
-        
+
+    print (riff)
     write_riff (riff)
 
 def write_riff (riff):
@@ -66,9 +67,8 @@ def write_riff (riff):
     for i in range (1, len (riff)):
         duration = riff [i][1]
         pitch = riff [i][0]
-        for j in range (0, i):
-            position += duration
-            MyMIDI.addNote(track, channel, pitch, position, duration, volume)
+        MyMIDI.addNote(track, channel, pitch, position, duration, volume)
+        position += duration
 
 ############## DRUMS ##############
 
@@ -113,7 +113,8 @@ key = original_key [20:35]
 print (key)
 
 # Variables initialization
-additional_tracks = randint (1,3)
+#additional_tracks = randint (1,3)
+additional_tracks = 1
 print ('# additional tracks: '+str (additional_tracks))
 track = 1
 
@@ -127,7 +128,8 @@ key = original_key [30:45]
 print (key)
 
 # Variables initialization
-additional_tracks = randint (1,3)
+#additional_tracks = randint (1,3)
+additional_tracks = 1
 print ('# additional tracks: '+str (additional_tracks))
 track = 2
 
