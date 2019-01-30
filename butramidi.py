@@ -129,7 +129,7 @@ print (key)
 
 # Variables initialization
 #additional_tracks = randint (1,3)
-additional_tracks = 1
+additional_tracks = 2
 print ('# additional tracks: '+str (additional_tracks))
 track = 2
 
@@ -139,8 +139,11 @@ for i in range (0, additional_tracks):
 
 # Save file
 now = datetime.now()
-now = now.strftime("%H%M%S")
+timenow = now.strftime("%H%M%S")
+datenow = now.strftime("%Y%m%d")
 if not os.path.exists('midi'):
     os.mkdir ('midi')
-with open('midi/random-beat-'+now+'.mid', 'wb') as output_file:
+if not os.path.exists('midi/'+datenow):
+    os.mkdir ('midi/'+datenow)
+with open('midi/'+datenow+'/random-beat-'+timenow+'.mid', 'wb') as output_file:
     MyMIDI.writeFile(output_file)
