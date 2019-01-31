@@ -15,6 +15,7 @@ def create_beat (degrees):
     resolution = len (degrees) / 4
     duration = 1/float(resolution)
     MyMIDI.addTempo(track, time, tempo)
+    degrees = 2* degrees
     for i, pitch in enumerate(degrees):
         position = time + float(i)/resolution
         if pitch == 0:
@@ -35,7 +36,7 @@ def create_random_beat ():
 
 # Key
 def generate_key ():
-    key = original_key = [1, 2, 4, 5, 7, 8, 11]
+    key = original_key = [0, 2, 3, 5, 7, 8, 11]
     new_key = [0, 0, 0, 0, 0, 0, 0]
 
     for i in range (1, 10):
@@ -46,25 +47,31 @@ def generate_key ():
 
 # Create a melody line
 def create_melody (key):
-    possible_duration = [0.25, 0.5, 1.0, 2.0]
+    possible_duration = [ 0.5, 1.0, 2.0]
     total_duration = 0.0
     riff = [[]]
 
     while True:
-        duration = possible_duration [randint(0,3)]
+        duration = possible_duration [randint(0,2)]
         total_duration += duration
-        if total_duration >= 8:
-            break
-        x = randint (1, 14) # shouldn't it be 15? Check.
+        x = randint (0, 11)
         note = [key[x], duration]
         riff.append (note)
+        if 8 - total_duration <= 2:
+            break
 
+    x = randint (0, 11)
+    duration = 8 - total_duration
+    note = [key[x], duration]
+    riff.append (note)
+
+    riff = riff [1:]
     print (riff)
     write_riff (riff)
 
 def write_riff (riff):
     position = 0
-    for i in range (1, len (riff)):
+    for i in range (0, len (riff)):
         duration = riff [i][1]
         pitch = riff [i][0]
         MyMIDI.addNote(track, channel, pitch, position, duration, volume)
@@ -74,7 +81,7 @@ def write_riff (riff):
 
 # Variables initialization
 additional_tracks = randint (0,4)
-print ('# additional tracks: '+str (additional_tracks))
+print ('# additional drum tracks: '+str (additional_tracks))
 MyMIDI = MIDIFile(4+additional_tracks)
 channel  = 0
 track = 0
@@ -109,13 +116,12 @@ for i in range (0, additional_tracks):
 ############## BASS ##############
 
 original_key = generate_key ()
-key = original_key [20:35]
+key = original_key [20:32]
 print (key)
 
 # Variables initialization
-#additional_tracks = randint (1,3)
-additional_tracks = 1
-print ('# additional tracks: '+str (additional_tracks))
+additional_tracks = randint (1,3)
+print ('# additional bass tracks: '+str (additional_tracks))
 track = 1
 
 # Tracks
@@ -124,13 +130,12 @@ for i in range (0, additional_tracks):
 
 ############## LEAD ##############
 
-key = original_key [30:45]
+key = original_key [33:45]
 print (key)
 
 # Variables initialization
-#additional_tracks = randint (1,3)
-additional_tracks = 2
-print ('# additional tracks: '+str (additional_tracks))
+additional_tracks = randint (1,3)
+print ('# additional lead tracks: '+str (additional_tracks))
 track = 2
 
 # Tracks
@@ -145,5 +150,7 @@ if not os.path.exists('midi'):
     os.mkdir ('midi')
 if not os.path.exists('midi/'+datenow):
     os.mkdir ('midi/'+datenow)
-with open('midi/'+datenow+'/random-beat-'+timenow+'.mid', 'wb') as output_file:
-    MyMIDI.writeFile(output_file)
+midi_path = 'midi/'+datenow+'/random-beat-'+timenow+'.mid'
+print (midi_path)
+with open(midi_path, 'wb') as output_file:
+    MyMIDI.writeFile (output_file)
