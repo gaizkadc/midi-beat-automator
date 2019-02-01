@@ -121,7 +121,7 @@ print (key)
 
 # Variables initialization
 additional_tracks = randint (1,3)
-print ('# additional bass tracks: '+str (additional_tracks))
+print ('# bass tracks: '+str (additional_tracks))
 track = 1
 
 # Tracks
@@ -135,12 +135,38 @@ print (key)
 
 # Variables initialization
 additional_tracks = randint (1,3)
-print ('# additional lead tracks: '+str (additional_tracks))
+print ('# lead tracks: '+str (additional_tracks))
 track = 2
 
 # Tracks
 for i in range (0, additional_tracks):
     create_melody (key)
+
+############## EVOLVE ##############
+
+key = original_key [30:37]
+print (key)
+
+# Variables initialization
+additional_tracks = randint (1,3)
+print ('# ambient tracks: '+str (additional_tracks))
+track = 3
+duration = 2
+
+# Tracks
+for i in range (0, additional_tracks):
+    riff = [[]]
+    total_duration = 0.0
+    for j in range (0, 4):
+        x = randint (0, 6)
+        total_duration += duration
+        note = [key[x], duration]
+        riff.append (note)
+    riff = riff [1:]
+    print (riff)
+    write_riff (riff)
+
+############## FILE MANAGEMENT ##############
 
 # Save file
 now = datetime.now()
