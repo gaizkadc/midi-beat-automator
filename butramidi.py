@@ -80,21 +80,26 @@ def write_riff (riff):
 ############## DRUMS ##############
 
 # Variables initialization
-additional_tracks = randint (0,4)
-print ('# additional drum tracks: '+str (additional_tracks))
-MyMIDI = MIDIFile(4+additional_tracks)
+MyMIDI = MIDIFile(8) # 8 being the number of tracks
 channel  = 0
-track = 0
 time     = 0    # In beats
 tempo    = 115   # In BPM
 volume   = 80  # 0-127, as per the MIDI standard
 
 # Kick
+track = 0
 x = 36
 degrees  = [x, 0, x, 0, x, 0, x, 0]  # MIDI note number
 create_beat (degrees)
 
+# Clap
+track = 1
+x = 39
+degrees  = [0, 0, x, 0, 0, 0, x, 0]  # MIDI note number
+create_beat (degrees)
+
 # Open Hi-Hat
+track = 2
 x = 46
 degrees  = [0, x, 0, x, 0, x, 0, x]  # MIDI note number
 create_beat (degrees)
@@ -104,12 +109,10 @@ x = 42
 degrees  = [0, 0, 0, x, 0, 0, 0, x, 0, 0, 0, x, 0, 0, 0, x]  # MIDI note number
 create_beat (degrees)
 
-# Clap
-x = 39
-degrees  = [0, 0, x, 0, 0, 0, x, 0]  # MIDI note number
-create_beat (degrees)
-
 # Additional tracks
+track = 3
+additional_tracks = randint (0,4)
+print ('# additional drum tracks: '+str (additional_tracks))
 for i in range (0, additional_tracks):
     create_random_beat ()
 
@@ -122,7 +125,7 @@ print (key)
 # Variables initialization
 additional_tracks = randint (1,3)
 print ('# bass tracks: '+str (additional_tracks))
-track = 1
+track = 4
 
 # Tracks
 for i in range (0, additional_tracks):
@@ -136,7 +139,7 @@ print (key)
 # Variables initialization
 additional_tracks = randint (1,3)
 print ('# lead tracks: '+str (additional_tracks))
-track = 2
+track = 5
 
 # Tracks
 for i in range (0, additional_tracks):
@@ -150,7 +153,7 @@ print (key)
 # Variables initialization
 additional_tracks = randint (1,3)
 print ('# ambient tracks: '+str (additional_tracks))
-track = 3
+track = 6
 duration = 2
 
 # Tracks
@@ -165,6 +168,15 @@ for i in range (0, additional_tracks):
     riff = riff [1:]
     print (riff)
     write_riff (riff)
+
+############## SAMPLES ##############
+
+# Additional tracks
+track = 7
+additional_tracks = randint (1,3)
+print ('# samples tracks: '+str (additional_tracks))
+for i in range (0, additional_tracks):
+    create_random_beat ()
 
 ############## FILE MANAGEMENT ##############
 
