@@ -7,6 +7,7 @@ import random
 import os
 from datetime import datetime
 import time
+import sys
 
 ############## FUNCTIONS ##############
 
@@ -80,10 +81,10 @@ def write_riff (riff):
 ############## DRUMS ##############
 
 # Variables initialization
-MyMIDI = MIDIFile(8) # 8 being the number of tracks
+MyMIDI = MIDIFile (7) # number of MIDI tracks
 channel  = 0
 time     = 0    # In beats
-tempo    = 115   # In BPM
+tempo    = int (raw_input ('BPM: '))   # In BPM
 volume   = 80  # 0-127, as per the MIDI standard
 
 # Kick
@@ -111,8 +112,8 @@ create_beat (degrees)
 
 # Additional tracks
 track = 3
-additional_tracks = randint (0,4)
-print ('# additional drum tracks: '+str (additional_tracks))
+additional_tracks = int (raw_input ('Additional drum tracks: '))
+# print ('# additional drum tracks: '+str (additional_tracks))
 for i in range (0, additional_tracks):
     create_random_beat ()
 
@@ -123,8 +124,8 @@ key = original_key [20:32]
 print (key)
 
 # Variables initialization
-additional_tracks = randint (1,3)
-print ('# bass tracks: '+str (additional_tracks))
+additional_tracks = int (raw_input ('# bass tracks: '))
+# print ('# bass tracks: '+str (additional_tracks))
 track = 4
 
 # Tracks
@@ -137,8 +138,8 @@ key = original_key [33:45]
 print (key)
 
 # Variables initialization
-additional_tracks = randint (1,3)
-print ('# lead tracks: '+str (additional_tracks))
+additional_tracks = int (raw_input ('# lead tracks: '))
+# print ('# lead tracks: '+str (additional_tracks))
 track = 5
 
 # Tracks
@@ -151,8 +152,8 @@ key = original_key [30:37]
 print (key)
 
 # Variables initialization
-additional_tracks = randint (1,3)
-print ('# ambient tracks: '+str (additional_tracks))
+additional_tracks = int (raw_input ('# ambient tracks: '))
+# print ('# ambient tracks: '+str (additional_tracks))
 track = 6
 duration = 2
 
@@ -169,21 +170,12 @@ for i in range (0, additional_tracks):
     print (riff)
     write_riff (riff)
 
-############## SAMPLES ##############
-
-# Additional tracks
-track = 7
-additional_tracks = randint (1,3)
-print ('# samples tracks: '+str (additional_tracks))
-for i in range (0, additional_tracks):
-    create_random_beat ()
-
 ############## FILE MANAGEMENT ##############
 
 # Save file
 now = datetime.now()
-timenow = now.strftime("%H%M%S")
-datenow = now.strftime("%Y%m%d")
+timenow = now.strftime('%H%M%S')
+datenow = now.strftime('%Y%m%d')
 if not os.path.exists('midi'):
     os.mkdir ('midi')
 if not os.path.exists('midi/'+datenow):
