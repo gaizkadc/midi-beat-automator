@@ -85,29 +85,41 @@ MyMIDI = MIDIFile (7) # number of MIDI tracks
 channel  = 0
 time     = 0    # In beats
 tempo    = int (raw_input ('BPM: '))   # In BPM
+style    = str (raw_input ('Style: ')) # So far, 'house' or 'lofi'
 volume   = 80  # 0-127, as per the MIDI standard
 
 # Kick
 track = 0
 x = 36
-degrees  = [x, 0, x, 0, x, 0, x, 0]  # MIDI note number
+if style == 'lofi': 
+    degrees = [x, 0, 0, 0, 0, x, 0, 0]  # MIDI note number
+else:
+    degrees = [x, 0, x, 0, x, 0, x, 0]
 create_beat (degrees)
 
-# Clap
+# Clap/Snare
 track = 1
-x = 39
-degrees  = [0, 0, x, 0, 0, 0, x, 0]  # MIDI note number
+if style == 'lofi':
+    x = 37
+    degrees = [0, 0, x, 0, 0, 0, x, 0]
+else:
+    x = 39
+    degrees  = [0, 0, x, 0, 0, 0, x, 0]  # MIDI note number
 create_beat (degrees)
 
 # Open Hi-Hat
 track = 2
-x = 46
-degrees  = [0, x, 0, x, 0, x, 0, x]  # MIDI note number
-create_beat (degrees)
+if style == 'house':
+    x = 46
+    degrees  = [0, x, 0, x, 0, x, 0, x]  # MIDI note number
+    create_beat (degrees)
 
 # Closed Hi-Hat
 x = 42
-degrees  = [0, 0, 0, x, 0, 0, 0, x, 0, 0, 0, x, 0, 0, 0, x]  # MIDI note number
+if style == 'lofi':
+    degrees = [x, x, x, x, x, x, x, x]
+else:
+    degrees  = [0, 0, 0, x, 0, 0, 0, x, 0, 0, 0, x, 0, 0, 0, x]  # MIDI note number
 create_beat (degrees)
 
 # Additional tracks
